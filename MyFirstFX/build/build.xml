@@ -22,7 +22,7 @@
 		
 		<mkdir dir="project" />
 		<copy todir="project">
-			<fileset dir="D:\Projects\eclipse-kepler\workspace\MyFirstFX">
+			<fileset dir="D:\Projects\eclipse-kepler\git\GitHub\MyFirstFX">
 				<include name="src/**" />
 			</fileset>
 		</copy>
