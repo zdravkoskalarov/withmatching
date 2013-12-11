@@ -15,7 +15,7 @@ public class Main extends Application {
 			Text t = new Text("Hello FX"); //set text here
 			root.setCenter(t);
 			Scene scene = new Scene(root,400,400);
-			scene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
+			scene.getStylesheets().add(getClass().getResource("application.css").toExternalForm()); // Ooohh, CSS
 			primaryStage.setScene(scene);
 			primaryStage.show();
 		} catch(Exception e) {
