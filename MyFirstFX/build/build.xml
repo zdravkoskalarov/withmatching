@@ -22,7 +22,7 @@
 		
 		<mkdir dir="project" />
 		<copy todir="project">
-			<fileset dir="D:\Projects\eclipse-kepler\git\GitHub\MyFirstFX">
+			<fileset dir="C:\Users\Rimidalv\Java\withmatching\MyFirstFX">
 				<include name="src/**" />
 			</fileset>
 		</copy>
@@ -50,13 +50,13 @@
 			</fileset>
 		</copy>
 	
-		<javac includeantruntime="false" source="1.7" target="1.7" srcdir="build/src" destdir="build/classes" encoding="Cp1252">
+		<javac includeantruntime="false" source="1.7" target="1.7" srcdir="build/src" destdir="build/classes" encoding="Cp1251">
 			<classpath>
 				<fileset dir="build/libs">
 					<include name="*"/>
 				</fileset>
 				<filelist>
-					<file name="C:\glassfish4\jdk7\jre\lib\jfxrt.jar"/>
+					<file name="C:\Program Files\Java\jdk1.7.0_45\jre\lib\jfxrt.jar"/>
 				</filelist>
 			</classpath>
 		</javac>
