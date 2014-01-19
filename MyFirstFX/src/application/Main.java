@@ -30,6 +30,7 @@ public class Main extends Application {
 			primaryStage.setTitle("Home Page");
 			primaryStage.show();
 			
+			//my comment
 			//load new scene
 			AnchorPane playPage = (AnchorPane) FXMLLoader.load(Main.class.getResource("darkPlay.fxml"));
 			scene = new Scene(playPage);
