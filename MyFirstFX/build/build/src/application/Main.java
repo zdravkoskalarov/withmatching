@@ -1,5 +1,6 @@
 package application;
 	
+import application.dao.MySQLDAO;
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.scene.layout.BorderPane;
@@ -18,6 +19,11 @@ public class Main extends Application {
 			scene.getStylesheets().add(getClass().getResource("application.css").toExternalForm()); // Ooohh, CSS
 			primaryStage.setScene(scene);
 			primaryStage.show();
+			System.out.print("Loading db...");
+			//try out the db connectivity
+			MySQLDAO dao = new MySQLDAO();
+			
+			dao.readDataBase();
 		} catch(Exception e) {
 			e.printStackTrace();
 		}

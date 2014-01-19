@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.layout.AnchorPane?>
+<?import java.lang.*?>
+<?import java.net.*?>
+<?import java.util.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.paint.*?>
+
+<AnchorPane id="AnchorPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="800.0" styleClass="background" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/2.2">
+  <children>
+    <Label alignment="CENTER" layoutX="0.0" layoutY="0.0" prefHeight="50.0" prefWidth="800.0" styleClass="background" text="Withmatching Test">
+      <stylesheets>
+        <URL value="@application.css" />
+      </stylesheets>
+    </Label>
+    <Button layoutX="99.0" layoutY="228.0" mnemonicParsing="false" prefHeight="144.0" prefWidth="208.0" text="Tests" />
+    <Button layoutX="513.0" layoutY="228.0" mnemonicParsing="false" prefHeight="144.0" prefWidth="208.0" text="Questions" />
+  </children>
+  <stylesheets>
+    <URL value="@application.css" />
+  </stylesheets>
+</AnchorPane>
+
