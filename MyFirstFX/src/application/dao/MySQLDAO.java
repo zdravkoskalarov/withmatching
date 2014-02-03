@@ -48,6 +48,12 @@ public class MySQLDAO {
 	      connect = DriverManager
 	          .getConnection("jdbc:mysql://localhost/withmatching?"
 	              + "user=admin&password=localhostadmin&useUnicode=true");
+	      
+	      // Statements allow to issue SQL queries to the database
+	      statement = connect.createStatement();
+	      // Result set get the result of the SQL query
+	      statement.execute("SET NAMES utf8");
+	      
 	} catch (ClassNotFoundException e) {
 		// TODO Auto-generated catch block
 		throw e;
@@ -64,7 +70,7 @@ public class MySQLDAO {
 	  try {
 		  
 		  //prepare statement
-		  preparedStatement = connect.prepareStatement(insertSQLQuestion);
+		  preparedStatement = connect.prepareStatement(insertSQLQuestion, Statement.RETURN_GENERATED_KEYS);
 		  int i = 1;
 		  //build prepared statement
 		  preparedStatement.setString(i++, q.getBody());
@@ -75,7 +81,7 @@ public class MySQLDAO {
 		  resultSet = preparedStatement.getGeneratedKeys();
 		  
 		  while (resultSet.next()) {
-			  q.setId(resultSet.getInt("ID"));
+			  q.setId(resultSet.getInt(1));
 		  }
 		  
 	      //preparedStatement
@@ -92,7 +98,7 @@ public class MySQLDAO {
 	  try {
 		  
 		  //prepare statement
-		  preparedStatement = connect.prepareStatement(insertSQLTest);
+		  preparedStatement = connect.prepareStatement(insertSQLTest, Statement.RETURN_GENERATED_KEYS);
 		  int i = 1;
 		  //build prepared statement
 		  preparedStatement.setString(i++, t.getName());
@@ -103,11 +109,11 @@ public class MySQLDAO {
 		  resultSet = preparedStatement.getGeneratedKeys();
 		  
 		  while (resultSet.next()) {
-			  t.setId(resultSet.getInt("ID"));
+			  t.setId(resultSet.getInt(1));
 		  }
 		  
 		  //save test questions
-		  saveTestQuestions(t);
+		  if (t.getQuestions() != null) saveTestQuestions(t);
 		  
 	      //preparedStatement
 	      return t;
@@ -230,20 +236,23 @@ public class MySQLDAO {
 		//delete all test questions
 		deleteAllTestQuestions(t);
 		
-		//insert modified questions list
-		for (Question q: t.getQuestions()) {
-		  //prepare statement
-		  preparedStatement = connect.prepareStatement(insertSQLTestQuestion);
-		  //build prepared statement
-		  int i = 1;
-		  
-		  preparedStatement.setString(i++, Question.generateHash(q.getId(), t.getId()));
-		  preparedStatement.setInt(i++, q.getId());
-		  preparedStatement.setInt(i++, t.getId());
-		  
-		  
-		  preparedStatement.executeUpdate();
-		  
+		if (t.getQuestions() != null && t.getQuestions().size() > 0) {
+		
+			//insert modified questions list
+			for (Question q: t.getQuestions()) {
+			  //prepare statement
+			  preparedStatement = connect.prepareStatement(insertSQLTestQuestion);
+			  //build prepared statement
+			  int i = 1;
+			  
+			  preparedStatement.setString(i++, Question.generateHash(q.getId(), t.getId()));
+			  preparedStatement.setInt(i++, q.getId());
+			  preparedStatement.setInt(i++, t.getId());
+			  
+			  
+			  preparedStatement.executeUpdate();
+			  
+			}
 		}
 	      
 	      return t;
@@ -278,7 +287,8 @@ public class MySQLDAO {
 	    } catch (SQLException e) {
 		  throw new Exception("SQL Error: "+e.getMessage());
 		} finally {
-	      close();
+			// we won't add any questions and can close the connection
+			if (t.getQuestions() == null || t.getQuestions().size() == 0) close();
 	    }
   }
   
@@ -291,6 +301,7 @@ public class MySQLDAO {
    */
   public QuestionsList loadQuestionsByTest(int tid) throws Exception {
 	  QuestionsList qList = new QuestionsList();
+	  ResultSet rs = null;
 	  try {
 		  
 		  //prepare statement
@@ -299,11 +310,11 @@ public class MySQLDAO {
 		  preparedStatement.setInt(1, tid);
 		  
 		  
-		  resultSet = preparedStatement.executeQuery();
+		  rs = preparedStatement.executeQuery();
 		  
-		  while(resultSet.next()) {
+		  while(rs.next()) {
 			  Question q = new Question();
-			  build(q, resultSet);
+			  build(q, rs);
 			  
 			  
 			  qList.add(q);
@@ -315,7 +326,7 @@ public class MySQLDAO {
 	    } catch (SQLException e) {
 		  throw new Exception("SQL Error: "+e.getMessage());
 		} finally {
-	      close();
+	      rs.close();
 	    }
   }
   
@@ -438,6 +449,8 @@ public class MySQLDAO {
 		  while(resultSet.next()) {
 			  Test t = new Test();
 			  build(t, resultSet);
+			  
+			  t.setQuestions(loadQuestionsByTest(t.getId()));
 			  
 			  tList.add(t);
 			  

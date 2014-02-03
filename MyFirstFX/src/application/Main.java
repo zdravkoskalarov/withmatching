@@ -1,13 +1,13 @@
 package application;
 	
-import application.dao.MySQLDAO;
+import java.io.IOException;
+
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
-import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.AnchorPane;
-import javafx.scene.text.Text;
+import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
+import application.dao.MySQLDAO;
 
 
 public class Main extends Application {
@@ -24,19 +24,27 @@ public class Main extends Application {
 			primaryStage.show();*/
 			
 			//load home page
-			AnchorPane homePage = (AnchorPane) FXMLLoader.load(Main.class.getResource("darkHome.fxml"));
-			Scene scene = new Scene(homePage);
-			primaryStage.setScene(scene);
-			primaryStage.setTitle("Home Page");
-			primaryStage.show();
+			// AnchorPane homePage = (AnchorPane) FXMLLoader.load(Main.class.getResource("darkHome.fxml"));
+			// Scene scene = new Scene(homePage);
+			// primaryStage.setScene(scene);
+			// primaryStage.setTitle("Home Page");
+			// primaryStage.show();
 			
 			//my comment
 			//load new scene
-			AnchorPane playPage = (AnchorPane) FXMLLoader.load(Main.class.getResource("darkPlay.fxml"));
-			scene = new Scene(playPage);
-			primaryStage.setScene(scene);
-			primaryStage.setTitle("Play Test");
-			primaryStage.show();
+			// AnchorPane playPage = (AnchorPane) FXMLLoader.load(Main.class.getResource("darkPlay.fxml"));
+			// scene = new Scene(playPage);
+			// primaryStage.setScene(scene);
+			primaryStage.setTitle("Withmatching");
+			// primaryStage.show();
+			
+			primaryStage.setScene(
+		            createScene(
+		                loadMainPane()
+		            )
+		        );
+		
+		        primaryStage.show();
 			
 			//try out the db connectivity
 			System.out.println("Loading ДБ...");
@@ -46,6 +54,51 @@ public class Main extends Application {
 		} catch(Exception e) {
 			e.printStackTrace();
 		}
+	}
+	
+	
+	/**
+	* Loads the main fxml layout.
+	* Sets up the vista switching VistaNavigator.
+	* Loads the first vista into the fxml layout.
+	*
+	* @return the loaded pane.
+	* @throws IOException if the pane could not be loaded.
+	*/
+	private Pane loadMainPane() throws IOException {
+		FXMLLoader loader = new FXMLLoader();
+		
+		Pane mainPane = (Pane) loader.load(
+		    getClass().getResourceAsStream(
+		        VistaNavigator.MAIN
+		    )
+		);
+		
+		MainController mainController = loader.getController();
+		
+		VistaNavigator.setMainController(mainController);
+		VistaNavigator.loadVista(VistaNavigator.HOME);
+		
+		return mainPane;
+	}
+
+	/**
+	* Creates the main application scene.
+	*
+	* @param mainPane the main application layout.
+	*
+	* @return the created scene.
+	*/
+	private Scene createScene(Pane mainPane) {
+		Scene scene = new Scene(
+		    mainPane
+		);
+		
+		scene.getStylesheets().setAll(
+		    getClass().getResource("application.css").toExternalForm()
+		);
+		
+		return scene;
 	}
 	
 	public static void main(String[] args) {

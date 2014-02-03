@@ -2,39 +2,42 @@ package application.dto;
 
 import java.io.IOException;
 
+import javafx.beans.property.SimpleStringProperty;
 import application.util.Base64;
 
 public class Question implements IAPersistant {
-	private int id;
-	private String body;
-	private String answer;
+	private SimpleStringProperty id;
+	private SimpleStringProperty body;
+	private SimpleStringProperty answer;
 	
 	public Question() {
-		this.id = 0;
+		this.id = new SimpleStringProperty();
+		this.body = new SimpleStringProperty();
+		this.answer = new SimpleStringProperty();
 	}
 
 	public int getId() {
-		return id;
+		return Integer.parseInt(id.get());
 	}
 
 	public void setId(int id) {
-		this.id = id;
+		this.id.set(Integer.toString(id));
 	}
 
 	public String getBody() {
-		return body;
+		return body.get();
 	}
 
 	public void setBody(String body) {
-		this.body = body;
+		this.body.set(body);
 	}
 
 	public String getAnswer() {
-		return answer;
+		return answer.get();
 	}
 
 	public void setAnswer(String answer) {
-		this.answer = answer;
+		this.answer.set(answer);
 	}
 	
 	public static String generateHash(int qid, int tid) throws Exception {

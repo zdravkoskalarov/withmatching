@@ -34,6 +34,11 @@ public class Test implements IAPersistant {
 	public void setQuestions(QuestionsList questions) {
 		this.questions = questions;
 	}
+	
+	@Override
+	public String toString() {
+		return this.getName();
+	}
 
 
 	@Override
