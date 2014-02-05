@@ -15,6 +15,12 @@ public class Question implements IAPersistant {
 		this.body = new SimpleStringProperty();
 		this.answer = new SimpleStringProperty();
 	}
+	
+	public Question(Question question) {
+		this.id = question.id;
+		this.body = question.body;
+		this.answer = question.answer;
+	}
 
 	public int getId() {
 		return Integer.parseInt(id.get());

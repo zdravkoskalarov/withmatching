@@ -10,9 +10,11 @@ import javafx.scene.input.DataFormat;
 
 public class CheckableQuestion extends Question implements Serializable {
 	
+
+
 	public static final DataFormat CheckableQuestion_DATA_FORMAT = new DataFormat("application.dto.CheckableQuestion");
 	
-	private BooleanProperty checked;
+	private transient BooleanProperty checked;
 	private boolean bound;
 	
 	public CheckableQuestion(Question q) {
