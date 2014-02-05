@@ -119,7 +119,7 @@ public class QuestionsController implements Initializable {
 	@FXML
 	public void editAnswer(CellEditEvent<Question, String> t) {
         Question q = (Question) t.getTableView().getItems().get(t.getTablePosition().getRow());
-        
+        System.out.println("Editing answer");
         q.setAnswer(t.getNewValue());
         try {
 			MySQLDAO dao = new MySQLDAO();

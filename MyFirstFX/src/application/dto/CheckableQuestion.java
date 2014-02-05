@@ -4,6 +4,7 @@ import java.io.Serializable;
 
 import javafx.beans.InvalidationListener;
 import javafx.beans.property.BooleanProperty;
+import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.scene.input.DataFormat;

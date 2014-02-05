@@ -33,10 +33,10 @@
       <items>
         <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0" styleClass="background">
           <children>
-            <TableView fx:id="questionsTable" onDragDone="#optionsTableDragDone" onDragDropped="#questionsTableDragDropped" onDragEntered="#questionsTableDragEntered" onDragExited="#questionsTableDragExited" onDragOver="#questionsTableDragOver" onMouseDragReleased="#questionsTableDragDropped" prefHeight="495.0" prefWidth="357.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+            <TableView fx:id="questionsTable" editable="true" onDragDone="#optionsTableDragDone" onDragDropped="#questionsTableDragDropped" onDragEntered="#questionsTableDragEntered" onDragExited="#questionsTableDragExited" onDragOver="#questionsTableDragOver" onMouseDragReleased="#questionsTableDragDropped" prefHeight="495.0" prefWidth="357.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
               <columns>
                 <TableColumn maxWidth="5000.0" minWidth="10.0" prefWidth="232.0" text="Questions" fx:id="body" />
-                <TableColumn maxWidth="5000.0" minWidth="10.0" prefWidth="208.0" text="Answers" fx:id="answer" />
+                <TableColumn maxWidth="5000.0" minWidth="10.0" onEditStart="#selectAnswer" prefWidth="208.0" text="Answers" fx:id="answer" />
                 <TableColumn prefWidth="75.0" text="Result" fx:id="result" />
               </columns>
             </TableView>

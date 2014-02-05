@@ -1,5 +1,6 @@
 package application.controllers;
 
+import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.EventHandler;
@@ -60,22 +61,33 @@ public class PlayController {
 		System.out.println("Item selected");
 		probe = new CheckableQuestion(optionsTable.getSelectionModel().getSelectedItem());
 		event.consume();
+		
 	}
 	
-	public void setSelectedAnswer(CellEditEvent<Question, String> event)
+	public void selectAnswer(CellEditEvent<CheckableQuestion, String> event)
 	{
-		System.out.println("Item dropped");
+		System.out.println("Answer dropped");
+		CheckableQuestion selection = (CheckableQuestion) questionsTable.getItems().get(event.getTablePosition().getRow());
+		System.out.println("Old answer" + selection.getAnswer() + "with id" + selection.getId());
+		selection.setAnswer(probe.getAnswer());
+		selection.setId(probe.getId());
+		System.out.println("New answer" + selection.getAnswer() + "with id" + selection.getId());
+		refreshAnswerColumn();
+		event.consume();
+		
 		/*
 		CheckableQuestion selection = questionsTable.getSelectionModel().getSelectedItem();
 		System.out.println(selection.getAnswer());
 		selection.setAnswer(probe.getAnswer());
 		System.out.println(selection.getAnswer());
 		*/
-		CheckableQuestion selection = (CheckableQuestion) questionsTable.getItems().get(event.getTablePosition().getRow());
-		selection.setAnswer(probe.getAnswer());
-		System.out.println(selection.getAnswer());
-		event.consume();
 	}
+	
+	public void refreshAnswerColumn() {
+		questionsTable.getColumns().get(0).setVisible(false);
+		questionsTable.getColumns().get(0).setVisible(true);
+	}
+	
 	
 	//real drag and drop idea
 	public void optionsTableDragDetected(MouseEvent event)
@@ -164,7 +176,7 @@ public class PlayController {
 			result.setCellValueFactory(new PropertyValueFactory<CheckableQuestion, Boolean>("checked"));
 			result.setCellFactory(CheckBoxTableCell.forTableColumn(result));
 
-			//answer.setCellValueFactory(new PropertyValueFactory<CheckableQuestion, String>("answer"));
+			answer.setCellValueFactory(new PropertyValueFactory<CheckableQuestion, String>("answer"));
 			answer.setCellFactory(TextFieldTableCell.<CheckableQuestion>forTableColumn());
 			
 			questionsTable.setItems(data);
