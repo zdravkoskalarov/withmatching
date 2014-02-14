@@ -17,6 +17,7 @@ public class CheckableQuestion extends Question implements Serializable {
 	
 	private transient BooleanProperty checked;
 	private boolean bound;
+	private SimpleStringProperty guess;
 	
 	public CheckableQuestion(Question q) {
 		checked = new BooleanProperty() {
@@ -91,6 +92,7 @@ public class CheckableQuestion extends Question implements Serializable {
 		this.setBody(q.getBody());
 		this.setAnswer(q.getAnswer());
 		this.setChecked(false);
+		this.setGuess("empty");
 	}
 
 	public BooleanProperty isChecked() {
@@ -104,5 +106,19 @@ public class CheckableQuestion extends Question implements Serializable {
 	public void setChecked(boolean checked) {
 		this.checked.set(checked);
 	}
+	
+	public String getGuess() {
+		return guess.get();
+	}
+
+	public void setGuess(String guess) {
+		if (this.guess == null)
+		{
+			this.guess = new SimpleStringProperty();
+		}
+		this.guess.set(guess);
+	}
+	 
+	
 
 }

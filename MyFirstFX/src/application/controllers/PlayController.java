@@ -58,29 +58,26 @@ public class PlayController {
 	//semi drag and drop implementation
 	public void getSelectedAnswer(MouseEvent event)
 	{
-		System.out.println("Item selected");
-		probe = new CheckableQuestion(optionsTable.getSelectionModel().getSelectedItem());
+		CheckableQuestion privateProbe = new CheckableQuestion(optionsTable.getSelectionModel().getSelectedItem());
+		probe = privateProbe;
+		System.out.println("Item selected : " + probe.getAnswer());
 		event.consume();
-		
 	}
 	
 	public void selectAnswer(CellEditEvent<CheckableQuestion, String> event)
 	{
 		System.out.println("Answer dropped");
-		CheckableQuestion selection = (CheckableQuestion) questionsTable.getItems().get(event.getTablePosition().getRow());
-		System.out.println("Old answer" + selection.getAnswer() + "with id" + selection.getId());
-		selection.setAnswer(probe.getAnswer());
-		selection.setId(probe.getId());
-		System.out.println("New answer" + selection.getAnswer() + "with id" + selection.getId());
+		
+		System.out.println("before: " + event.getRowValue().getGuess());
+		event.getRowValue().setGuess(probe.getAnswer());
+		System.out.println("after: " + event.getRowValue().getGuess());
+		System.out.println("right table option: " + optionsTable.getSelectionModel().getSelectedItem().getGuess());
+		
 		refreshAnswerColumn();
+		refreshOptionsColumn();
+		
 		event.consume();
 		
-		/*
-		CheckableQuestion selection = questionsTable.getSelectionModel().getSelectedItem();
-		System.out.println(selection.getAnswer());
-		selection.setAnswer(probe.getAnswer());
-		System.out.println(selection.getAnswer());
-		*/
 	}
 	
 	public void refreshAnswerColumn() {
@@ -88,75 +85,9 @@ public class PlayController {
 		questionsTable.getColumns().get(0).setVisible(true);
 	}
 	
-	
-	//real drag and drop idea
-	public void optionsTableDragDetected(MouseEvent event)
-	{
-		probe = new CheckableQuestion(optionsTable.getSelectionModel().getSelectedItem());
-		
-		System.out.println("setOnDragDetected");
-		
-		Dragboard dragBoard = optionsTable.startDragAndDrop(TransferMode.MOVE);
-		
-		ClipboardContent content = new ClipboardContent();
-		
-		content.put(CheckableQuestion.CheckableQuestion_DATA_FORMAT, optionsTable.getSelectionModel().getSelectedItem());
-		//content.putString(optionsTable.getSelectionModel().getSelectedItem().getAnswer());
-		
-		dragBoard.setContent(content);
-		
-		event.consume();
-	}
-	
-	public void optionsTableDragDone(DragEvent event)
-	{
-		System.out.println("setOnDragDone");
-		
-		event.consume();
-	}
-	
-	public void questionsTableDragEntered(DragEvent event)
-	{
-		System.out.println("setOnDragEntered");
-		questionsTable.setBlendMode(BlendMode.DIFFERENCE);
-		
-		questionsTable.setOnDragDropped(new EventHandler<DragEvent>()	{
-
-			@Override
-			public void handle(DragEvent event) {
-				// TODO Auto-generated method stub
-				System.out.println("Drag Dropped");
-				questionsTable.getItems().addAll(probe);
-			}
-			
-		});
-		
-		event.consume();
-	}
-	
-	public void questionsTableDragExited(DragEvent event)
-	{
-		System.out.println("setOnDragExited");
-		questionsTable.setBlendMode(null);
-		event.consume();
-	}
-	
-	public void questionsTableDragOver(DragEvent event)
-	{
-		System.out.println("setOnDragOver");
-		event.acceptTransferModes(TransferMode.MOVE);
-		event.consume();
-	}
-	
-	public void questionsTableDragDropped(DragEvent event)
-	{
-		System.out.println("setOnDragDropped");
-		CheckableQuestion retrieveAnswer = (CheckableQuestion) event.getDragboard().getContent(CheckableQuestion.CheckableQuestion_DATA_FORMAT);
-		questionsTable.getItems().addAll(retrieveAnswer);
-		questionsTable.getItems().addAll(probe);
-		System.out.println(probe.getAnswer());
-		event.setDropCompleted(true);
-		event.consume();
+	public void refreshOptionsColumn() {
+		optionsTable.getColumns().get(0).setVisible(false);
+		optionsTable.getColumns().get(0).setVisible(true);
 	}
 	
 	
@@ -176,7 +107,7 @@ public class PlayController {
 			result.setCellValueFactory(new PropertyValueFactory<CheckableQuestion, Boolean>("checked"));
 			result.setCellFactory(CheckBoxTableCell.forTableColumn(result));
 
-			answer.setCellValueFactory(new PropertyValueFactory<CheckableQuestion, String>("answer"));
+			answer.setCellValueFactory(new PropertyValueFactory<CheckableQuestion, String>("guess"));
 			answer.setCellFactory(TextFieldTableCell.<CheckableQuestion>forTableColumn());
 			
 			questionsTable.setItems(data);
@@ -196,4 +127,74 @@ public class PlayController {
 			e.printStackTrace();
 		}
 	}
+	
+	//real drag and drop idea
+		public void optionsTableDragDetected(MouseEvent event)
+		{
+			probe = new CheckableQuestion(optionsTable.getSelectionModel().getSelectedItem());
+			
+			System.out.println("setOnDragDetected");
+			
+			Dragboard dragBoard = optionsTable.startDragAndDrop(TransferMode.MOVE);
+			
+			ClipboardContent content = new ClipboardContent();
+			
+			content.put(CheckableQuestion.CheckableQuestion_DATA_FORMAT, optionsTable.getSelectionModel().getSelectedItem());
+			//content.putString(optionsTable.getSelectionModel().getSelectedItem().getAnswer());
+			
+			dragBoard.setContent(content);
+			
+			event.consume();
+		}
+		
+		public void optionsTableDragDone(DragEvent event)
+		{
+			System.out.println("setOnDragDone");
+			
+			event.consume();
+		}
+		
+		public void questionsTableDragEntered(DragEvent event)
+		{
+			System.out.println("setOnDragEntered");
+			questionsTable.setBlendMode(BlendMode.DIFFERENCE);
+			
+			questionsTable.setOnDragDropped(new EventHandler<DragEvent>()	{
+
+				@Override
+				public void handle(DragEvent event) {
+					// TODO Auto-generated method stub
+					System.out.println("Drag Dropped");
+					questionsTable.getItems().addAll(probe);
+				}
+				
+			});
+			
+			event.consume();
+		}
+		
+		public void questionsTableDragExited(DragEvent event)
+		{
+			System.out.println("setOnDragExited");
+			questionsTable.setBlendMode(null);
+			event.consume();
+		}
+		
+		public void questionsTableDragOver(DragEvent event)
+		{
+			System.out.println("setOnDragOver");
+			event.acceptTransferModes(TransferMode.MOVE);
+			event.consume();
+		}
+		
+		public void questionsTableDragDropped(DragEvent event)
+		{
+			System.out.println("setOnDragDropped");
+			CheckableQuestion retrieveAnswer = (CheckableQuestion) event.getDragboard().getContent(CheckableQuestion.CheckableQuestion_DATA_FORMAT);
+			questionsTable.getItems().addAll(retrieveAnswer);
+			questionsTable.getItems().addAll(probe);
+			System.out.println(probe.getAnswer());
+			event.setDropCompleted(true);
+			event.consume();
+		}
 }
