@@ -18,7 +18,7 @@
         </Menu>
         <Menu mnemonicParsing="false" text="Menu">
           <items>
-            <MenuItem mnemonicParsing="false" text="Return to menu" />
+            <MenuItem mnemonicParsing="false" onAction="#goHome" text="Return to menu" />
           </items>
         </Menu>
         <Menu mnemonicParsing="false" text="Help">
@@ -53,8 +53,8 @@
         </AnchorPane>
       </items>
     </SplitPane>
-    <Button fx:id="submit" layoutX="630.0" layoutY="561.0" mnemonicParsing="false" prefHeight="39.0" prefWidth="170.0" text="Submit" />
-    <Button fx:id="resetPlay" layoutX="424.0" layoutY="561.0" mnemonicParsing="false" prefHeight="39.0" prefWidth="170.0" text="Reset" />
+    <Button fx:id="submit" layoutX="630.0" layoutY="561.0" mnemonicParsing="false" onAction="#submitSolution" prefHeight="39.0" prefWidth="170.0" text="Submit" />
+    <Button fx:id="resetPlay" layoutX="424.0" layoutY="561.0" mnemonicParsing="false" onAction="#resetTest" prefHeight="39.0" prefWidth="170.0" text="Reset" />
   </children>
   <stylesheets>
     <URL value="@application.css" />
