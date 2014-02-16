@@ -18,7 +18,8 @@
         </Menu>
         <Menu mnemonicParsing="false" text="Menu">
           <items>
-            <MenuItem mnemonicParsing="false" onAction="#goHome" text="Return to menu" />
+            <MenuItem mnemonicParsing="false" onAction="#goTests" text="Tests" />
+            <MenuItem mnemonicParsing="false" onAction="#goHome" text="Home" />
           </items>
         </Menu>
         <Menu mnemonicParsing="false" text="Help">

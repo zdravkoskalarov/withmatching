@@ -24,6 +24,7 @@ import javafx.scene.control.cell.CheckBoxTableCell;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.AnchorPane;
 import javafx.util.Callback;
+import application.VistaNavigator;
 import application.dao.MySQLDAO;
 import application.dto.CheckableQuestion;
 import application.dto.Question;
@@ -119,6 +120,30 @@ public class BindingController implements Initializable {
 		}
 		
 		refreshCheckBoxes();
+	}
+	
+	public void goHome()
+	{
+		try
+		{
+			VistaNavigator.loadVista(VistaNavigator.HOME);
+		}
+		catch (Exception e)
+		{
+			e.printStackTrace();
+		}
+	}
+	
+	public void goTests()
+	{
+		try
+		{
+			VistaNavigator.loadVista(VistaNavigator.TESTS);
+		}
+		catch (Exception e)
+		{
+			e.printStackTrace();
+		}
 	}
 
 	@Override

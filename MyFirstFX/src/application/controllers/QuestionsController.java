@@ -16,6 +16,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.control.cell.TextFieldTableCell;
 import javafx.scene.layout.AnchorPane;
+import application.VistaNavigator;
 import application.dao.MySQLDAO;
 import application.dto.Question;
 import application.dto.QuestionsList;
@@ -131,6 +132,30 @@ public class QuestionsController implements Initializable {
 		}
         
     }
+	
+	public void goHome()
+	{
+		try
+		{
+			VistaNavigator.loadVista(VistaNavigator.HOME);
+		}
+		catch (Exception e)
+		{
+			e.printStackTrace();
+		}
+	}
+	
+	public void goTests()
+	{
+		try
+		{
+			VistaNavigator.loadVista(VistaNavigator.TESTS);
+		}
+		catch (Exception e)
+		{
+			e.printStackTrace();
+		}
+	}
 	
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {

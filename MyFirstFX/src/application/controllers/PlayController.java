@@ -148,6 +148,18 @@ public class PlayController {
 		}
 	}
 	
+	public void goTests()
+	{
+		try
+		{
+			VistaNavigator.loadVista(VistaNavigator.TESTS);
+		}
+		catch (Exception e)
+		{
+			e.printStackTrace();
+		}
+	}
+	
 	public void initialize(int tid) {
 		System.out.println(tid);
 		MySQLDAO dao;

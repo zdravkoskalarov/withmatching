@@ -137,6 +137,30 @@ public class TestsController implements Initializable {
 		}
         
     }
+	
+	public void goHome()
+	{
+		try
+		{
+			VistaNavigator.loadVista(VistaNavigator.HOME);
+		}
+		catch (Exception e)
+		{
+			e.printStackTrace();
+		}
+	}
+	
+	public void goQuestions()
+	{
+		try
+		{
+			VistaNavigator.loadVista(VistaNavigator.QUESTIONS);
+		}
+		catch (Exception e)
+		{
+			e.printStackTrace();
+		}
+	}
 
 
 	@Override
