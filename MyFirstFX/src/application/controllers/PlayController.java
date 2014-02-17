@@ -1,5 +1,8 @@
 package application.controllers;
 
+import com.sun.javafx.scene.control.skin.LabeledText;
+import com.sun.javafx.scene.control.skin.TableCellSkin;
+
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -82,9 +85,116 @@ public class PlayController {
 		
 	}
 	
+	//real drag and drop idea
+		public void optionsTableDragDetected(MouseEvent event)
+		{
+			probe = new CheckableQuestion(optionsTable.getSelectionModel().getSelectedItem());
+			
+			System.out.println("setOnDragDetected");
+			
+			Dragboard dragBoard = optionsTable.startDragAndDrop(TransferMode.MOVE);
+			
+			ClipboardContent content = new ClipboardContent();
+			
+			content.put(CheckableQuestion.CheckableQuestion_DATA_FORMAT, (CheckableQuestion) optionsTable.getSelectionModel().getSelectedItem());
+			//content.putString(optionsTable.getSelectionModel().getSelectedItem().getAnswer());
+			
+			dragBoard.setContent(content);
+			
+			event.consume();
+		}
+		
+		public void optionsTableDragDone(DragEvent event)
+		{
+			System.out.println("setOnDragDone");
+			
+			event.consume();
+		}
+		
+		public void questionsTableDragEntered(DragEvent event)
+		{
+			System.out.println("setOnDragEntered");
+			questionsTable.setBlendMode(BlendMode.DIFFERENCE);
+			
+			
+			
+			questionsTable.setOnDragDropped(new EventHandler<DragEvent>()	{
+
+				@Override
+				public void handle(DragEvent event) {
+					// TODO Auto-generated method stub
+					System.out.println("Drag Dropped");
+					
+					//retrieve dragged answer
+					CheckableQuestion retrieveAnswer = (CheckableQuestion) event.getDragboard().getContent(CheckableQuestion.CheckableQuestion_DATA_FORMAT);
+					//create CheckableQuestion object for the row on which the answer is dropped
+					CheckableQuestion cq = null;
+					
+					if (event.getTarget() instanceof TableCellSkin) {
+						TableCellSkin cell = (TableCellSkin) event.getTarget();
+						
+						//get CQ target
+						cq = (CheckableQuestion) cell.getSkinnable().getTableRow().getItem();
+					} else if (event.getTarget() instanceof LabeledText) {
+						LabeledText label = (LabeledText) event.getTarget();
+						TableCellSkin cell = (TableCellSkin) label.getParent();
+						
+						//get CQ target
+						cq = (CheckableQuestion) cell.getSkinnable().getTableRow().getItem();
+					}
+					
+					//set guess
+					cq.setGuess(retrieveAnswer.getAnswer());
+					//log some info
+					System.out.println(cq.getId()+" "+retrieveAnswer.getAnswer());
+					
+					refreshAnswerColumn();
+					//questionsTable.getItems().addAll(probe);
+					
+				}
+				
+			});
+			
+			event.consume();
+		}
+		
+		public void questionsTableDragExited(DragEvent event)
+		{
+			System.out.println("setOnDragExited");
+			questionsTable.setBlendMode(null);
+			event.consume();
+		}
+		
+		public void questionsTableDragOver(DragEvent event)
+		{
+			System.out.println("setOnDragOver");
+			
+			if (event.getGestureTarget() != null) System.out.println(event.getGestureTarget().getClass().getCanonicalName());
+			
+			event.acceptTransferModes(TransferMode.MOVE);
+			event.consume();
+		}
+		
+		//useless, but will nevertheless be kept
+		public void questionsTableDragDropped(DragEvent event)
+		{
+			System.out.println("setOnDragDropped");
+			CheckableQuestion retrieveAnswer = (CheckableQuestion) event.getDragboard().getContent(CheckableQuestion.CheckableQuestion_DATA_FORMAT);
+			//questionsTable.getItems().addAll(retrieveAnswer);
+			for (CheckableQuestion cq : questionsTable.getItems()) {
+				CheckableQuestion qc = (CheckableQuestion) event.getTarget();
+				System.out.println(qc.getId());
+				
+			}
+			//questionsTable.getItems().addAll(probe);
+			System.out.println("aha!");
+			event.setDropCompleted(true);
+			event.consume();
+		}
+	
 	public void refreshAnswerColumn() {
-		questionsTable.getColumns().get(0).setVisible(false);
-		questionsTable.getColumns().get(0).setVisible(true);
+		questionsTable.getColumns().get(1).setVisible(false);
+		questionsTable.getColumns().get(1).setVisible(true);
 	}
 	
 	public void refreshOptionsColumn() {
@@ -93,15 +203,15 @@ public class PlayController {
 	}
 	
 	public void refreshResultColumn() {
-		questionsTable.getColumns().get(0).setVisible(false);
-		questionsTable.getColumns().get(0).setVisible(true);
+		questionsTable.getColumns().get(2).setVisible(false);
+		questionsTable.getColumns().get(2).setVisible(true);
 	}
 	
 	public void submitSolution(ActionEvent event) {
 		try
 		{
 			ObservableList <CheckableQuestion> submitItems = questionsTable.getItems();
-	        
+			result.setEditable(true);
 			for(int counter = 0; counter < submitItems.size(); counter++)
 			{
 				if(submitItems.listIterator(counter).next().getAnswer().equals(submitItems.listIterator(counter).next().getGuess()))
@@ -111,6 +221,7 @@ public class PlayController {
 			}
 			
 			refreshResultColumn();
+			result.setEditable(false);
 		}
 		catch (Exception e)
 		{
@@ -193,7 +304,10 @@ public class PlayController {
 			answer.setCellValueFactory(new PropertyValueFactory<CheckableQuestion, String>("guess"));
 			answer.setCellFactory(TextFieldTableCell.<CheckableQuestion>forTableColumn());
 			
+			
 			questionsTable.setItems(data);
+			
+			//questionsTable.getItems().
 			
 			FXCollections.shuffle(optionsData);
 			

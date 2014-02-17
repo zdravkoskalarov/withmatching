@@ -27,7 +27,7 @@
 		
 		<mkdir dir="project" />
 		<copy todir="project">
-			<fileset dir="C:\Users\Rimidalv\Java\withmatching\MyFirstFX">
+			<fileset dir="D:\Projects\eclipse-kepler\git\GitHub\MyFirstFX">
 				<include name="src/**" />
 			</fileset>
 		</copy>
@@ -56,13 +56,13 @@
 			</fileset>
 		</copy>
 	
-		<javac includeantruntime="false" source="1.7" target="1.7" srcdir="build/src" destdir="build/classes" encoding="Cp1251">
+		<javac includeantruntime="false" source="1.7" target="1.7" srcdir="build/src" destdir="build/classes" encoding="UTF-8">
 			<classpath>
 				<fileset dir="build/libs">
 					<include name="*"/>
 				</fileset>
 				<filelist>
-					<file name="C:\Program Files\Java\jdk1.7.0_45\jre\lib\jfxrt.jar"/>
+					<file name="C:\glassfish4\jdk7\jre\lib\jfxrt.jar"/>
 				</filelist>
 			</classpath>
 		</javac>
@@ -111,7 +111,7 @@
 			<fx:resources refid="appRes"/>
 			
 			<manifest>
-				<attribute name="Implementation-Vendor" value="Niki"/>
+				<attribute name="Implementation-Vendor" value="Vladi and Niki"/>
 				<attribute name="Implementation-Title" value="OOP Project"/>
 				<attribute name="Implementation-Version" value="1.0.0"/>
 				<attribute name="JavaFX-Feature-Proxy" value="None"/>

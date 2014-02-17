@@ -19,6 +19,7 @@ public class Question implements IAPersistant {
 	public Question(Question question) {
 		this.id = question.id;
 		this.body = question.body;
+		
 		this.answer = question.answer;
 	}
 
@@ -39,10 +40,11 @@ public class Question implements IAPersistant {
 	}
 
 	public String getAnswer() {
-		return answer.get();
+		return this.answer.get();
 	}
 
 	public void setAnswer(String answer) {
+
 		this.answer.set(answer);
 	}
 	
