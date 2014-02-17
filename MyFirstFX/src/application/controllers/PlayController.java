@@ -53,6 +53,7 @@ public class PlayController {
 	TableColumn<CheckableQuestion, String> options;
 	
 	ObservableList<CheckableQuestion> data;
+	ObservableList<CheckableQuestion> optionsData;
 	CheckableQuestion probe;
 	
 	
@@ -181,6 +182,7 @@ public class PlayController {
 			QuestionsList qList = dao.loadQuestionsByTest(tid);
 			//qList.size()
 			data = FXCollections.observableList(qList.convertToCheckableQuestions());
+			optionsData = FXCollections.observableList(qList.convertToCheckableQuestions());
 			
 			body.setCellValueFactory(new PropertyValueFactory<CheckableQuestion, String>("body"));
 			body.setCellFactory(TextFieldTableCell.<CheckableQuestion>forTableColumn());
@@ -193,12 +195,12 @@ public class PlayController {
 			
 			questionsTable.setItems(data);
 			
-			FXCollections.shuffle(data);
+			FXCollections.shuffle(optionsData);
 			
 			options.setCellValueFactory(new PropertyValueFactory<CheckableQuestion, String>("answer"));
 			options.setCellFactory(TextFieldTableCell.<CheckableQuestion>forTableColumn());
 			
-			optionsTable.setItems(data);
+			optionsTable.setItems(optionsData);
 			
 			
 			//initializeListeners();
@@ -210,76 +212,4 @@ public class PlayController {
 			e.printStackTrace();
 		}
 	}
-	
-	//real drag and drop idea
-	
-		public void optionsTableDragDetected(MouseEvent event)
-		{
-			probe = new CheckableQuestion(optionsTable.getSelectionModel().getSelectedItem());
-			
-			System.out.println("setOnDragDetected");
-			
-			Dragboard dragBoard = optionsTable.startDragAndDrop(TransferMode.MOVE);
-			
-			ClipboardContent content = new ClipboardContent();
-			
-			content.put(CheckableQuestion.CheckableQuestion_DATA_FORMAT, optionsTable.getSelectionModel().getSelectedItem());
-			//content.putString(optionsTable.getSelectionModel().getSelectedItem().getAnswer());
-			
-			dragBoard.setContent(content);
-			
-			event.consume();
-		}
-		
-		public void optionsTableDragDone(DragEvent event)
-		{
-			System.out.println("setOnDragDone");
-			
-			event.consume();
-		}
-		
-		public void questionsTableDragEntered(DragEvent event)
-		{
-			System.out.println("setOnDragEntered");
-			questionsTable.setBlendMode(BlendMode.DIFFERENCE);
-			
-			questionsTable.setOnDragDropped(new EventHandler<DragEvent>()	{
-
-				@Override
-				public void handle(DragEvent event) {
-					// TODO Auto-generated method stub
-					System.out.println("Drag Dropped");
-					questionsTable.getItems().addAll(probe);
-				}
-				
-			});
-			
-			event.consume();
-		}
-		
-		public void questionsTableDragExited(DragEvent event)
-		{
-			System.out.println("setOnDragExited");
-			questionsTable.setBlendMode(null);
-			event.consume();
-		}
-		
-		public void questionsTableDragOver(DragEvent event)
-		{
-			System.out.println("setOnDragOver");
-			event.acceptTransferModes(TransferMode.MOVE);
-			event.consume();
-		}
-		
-		public void questionsTableDragDropped(DragEvent event)
-		{
-			System.out.println("setOnDragDropped");
-			CheckableQuestion retrieveAnswer = (CheckableQuestion) event.getDragboard().getContent(CheckableQuestion.CheckableQuestion_DATA_FORMAT);
-			questionsTable.getItems().addAll(retrieveAnswer);
-			questionsTable.getItems().addAll(probe);
-			System.out.println(probe.getAnswer());
-			event.setDropCompleted(true);
-			event.consume();
-		}
-		
 }
