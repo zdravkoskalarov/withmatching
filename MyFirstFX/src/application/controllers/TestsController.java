@@ -2,7 +2,6 @@ package application.controllers;
 
 import java.net.URL;
 import java.util.ResourceBundle;
-
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -18,8 +17,6 @@ import javafx.scene.control.cell.TextFieldTableCell;
 import javafx.scene.layout.AnchorPane;
 import application.VistaNavigator;
 import application.dao.MySQLDAO;
-import application.dto.Question;
-import application.dto.QuestionsList;
 import application.dto.Test;
 import application.dto.TestsList;
 
@@ -155,6 +152,18 @@ public class TestsController implements Initializable {
 		try
 		{
 			VistaNavigator.loadVista(VistaNavigator.QUESTIONS);
+		}
+		catch (Exception e)
+		{
+			e.printStackTrace();
+		}
+	}
+	
+	public void exitProgram()
+	{
+		try
+		{
+			System.exit(0);
 		}
 		catch (Exception e)
 		{

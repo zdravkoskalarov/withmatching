@@ -160,6 +160,18 @@ public class PlayController {
 		}
 	}
 	
+	public void exitProgram()
+	{
+		try
+		{
+			System.exit(0);
+		}
+		catch (Exception e)
+		{
+			e.printStackTrace();
+		}
+	}
+	
 	public void initialize(int tid) {
 		System.out.println(tid);
 		MySQLDAO dao;

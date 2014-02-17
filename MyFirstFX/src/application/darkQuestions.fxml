@@ -13,18 +13,13 @@
       <menus>
         <Menu mnemonicParsing="false" text="File">
           <items>
-            <MenuItem mnemonicParsing="false" text="Close" />
+            <MenuItem mnemonicParsing="false" onAction="#exitProgram" text="Close" />
           </items>
         </Menu>
         <Menu mnemonicParsing="false" text="Menu">
           <items>
             <MenuItem mnemonicParsing="false" onAction="#goTests" text="Tests" />
             <MenuItem mnemonicParsing="false" onAction="#goHome" text="Go Home" />
-          </items>
-        </Menu>
-        <Menu mnemonicParsing="false" text="Help">
-          <items>
-            <MenuItem mnemonicParsing="false" text="About" />
           </items>
         </Menu>
       </menus>
@@ -37,8 +32,8 @@
         <TableColumn maxWidth="5000.0" minWidth="10.0" onEditCommit="#editAnswer" prefWidth="389.0" text="Answer" fx:id="answer" />
       </columns>
     </TableView>
-    <TextField fx:id="bodyFld" layoutX="14.0" layoutY="558.0" prefWidth="238.0" promptText="Question" />
-    <TextField fx:id="answerFld" layoutX="263.0" layoutY="558.0" prefWidth="238.0" promptText="Answer" />
+    <TextField fx:id="bodyFld" layoutX="14.0" layoutY="555.0" prefHeight="36.0" prefWidth="238.0" promptText="Question" />
+    <TextField fx:id="answerFld" layoutX="263.0" layoutY="555.0" prefHeight="36.0" prefWidth="238.0" promptText="Answer" />
     <Button fx:id="addBtn" layoutX="516.0" layoutY="555.0" mnemonicParsing="false" onAction="#addQuestion" prefWidth="80.0" text="Add" />
     <Button fx:id="deleteBtn" layoutX="706.0" layoutY="555.0" mnemonicParsing="false" onAction="#deleteQuestion" text="Delete" />
   </children>

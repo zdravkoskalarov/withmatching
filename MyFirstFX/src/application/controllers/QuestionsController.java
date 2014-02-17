@@ -157,6 +157,18 @@ public class QuestionsController implements Initializable {
 		}
 	}
 	
+	public void exitProgram()
+	{
+		try
+		{
+			System.exit(0);
+		}
+		catch (Exception e)
+		{
+			e.printStackTrace();
+		}
+	}
+	
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 		
